@@ -1,0 +1,106 @@
+/* Importando una fuente espeluznante */
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Creepster', cursive;
+    color: #e0e0e0;
+    background: #0d0d0d url('C:\Users\usuario\Documents\Materias\8D\Yakko\Comic\Imagenes') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Encabezado */
+header {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #e60000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3em;
+    color: #e60000;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+nav ul li a:hover {
+    color: #e60000;
+}
+
+/* Sección principal */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 50px;
+    border: 2px solid #e60000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #e60000;
+}
+
+.hero h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+}
+
+.hero button {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    color: #0d0d0d;
+    background: #e60000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero button:hover {
+    background: #cc0000;
+}
+
+/* Pie de página */
+footer {
+    background: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    padding: 10px;
+    border-top: 2px solid #e60000;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1em;
+}
