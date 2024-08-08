@@ -55,8 +55,15 @@ function create() {
         child.setVelocity(Phaser.Math.Between(-200, 200), 20);
     });
 
-    playerBullets = this.physics.add.group();
-    witchBullets = this.physics.add.group();
+    playerBullets = this.physics.add.group({
+        defaultKey: 'potion',
+        maxSize: 10
+    });
+
+    witchBullets = this.physics.add.group({
+        defaultKey: 'potion',
+        maxSize: 20
+    });
 
     this.physics.add.collider(player, witches, hitPlayer, null, this);
     this.physics.add.overlap(playerBullets, witches, destroyWitch, null, this);
@@ -65,7 +72,7 @@ function create() {
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
 }
 
-function update(time) {
+function update(time, delta) {
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
     } else if (cursors.right.isDown) {
@@ -82,16 +89,25 @@ function update(time) {
         player.setVelocityY(0);
     }
 
-    if (cursors.space.isDown && time > lastFired) {
-        let bullet = playerBullets.create(player.x, player.y, 'potion');
-        bullet.setVelocityX(300);
-        lastFired = time + 500;
+    if (Phaser.Input.Keyboard.JustDown(cursors.space) && time > lastFired) {
+        const bullet = playerBullets.get(player.x, player.y);
+
+        if (bullet) {
+            bullet.setActive(true);
+            bullet.setVisible(true);
+            bullet.setVelocityX(300);
+            lastFired = time + 500;
+        }
     }
 
     witches.children.iterate(function (witch) {
         if (Phaser.Math.Between(0, 100) < 2) {
-            let bullet = witchBullets.create(witch.x, witch.y, 'potion');
-            bullet.setVelocityX(-200);
+            const bullet = witchBullets.get(witch.x, witch.y);
+            if (bullet) {
+                bullet.setActive(true);
+                bullet.setVisible(true);
+                bullet.setVelocityX(-200);
+            }
         }
     });
 }
