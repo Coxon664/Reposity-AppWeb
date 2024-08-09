@@ -19,13 +19,13 @@ body {
 
 /* Espacio entre secciones */
 header, footer {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 /* Encabezado */
 header {
     background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     border-bottom: 2px solid #e60000;
     display: flex;
@@ -42,7 +42,7 @@ header h1 {
 nav ul {
     list-style: none;
     padding: 0;
-    margin: 25px 0;
+    margin: 10px 0;
 }
 
 nav ul li {
