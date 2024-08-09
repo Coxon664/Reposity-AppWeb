@@ -1,9 +1,14 @@
-/* General Styles */
+/* Importando una fuente espeluznante */
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+/* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Ajusta el fondo de la página si es necesario */
+    font-family: 'Creepster', cursive;
+    color: #e0e0e0;
+    background: #0d0d0d url('assets/fondo.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 .container {
@@ -12,101 +17,103 @@ body {
     min-height: 100vh;
 }
 
-/* Header Styles */
+/* Espacio entre secciones */
+header, footer {
+    margin-bottom: 20px;
+}
+
+/* Encabezado */
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #e60000;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas más pequeñas */
 }
 
 header h1 {
     margin: 0;
-    font-size: 1.5rem; /* Ajusta el tamaño del título si es necesario */
+    font-size: 3em;
+    color: #e60000;
 }
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
+    margin: 25px 0;
 }
 
 nav ul li {
-    margin-right: 1rem;
+    display: inline;
+    margin: 0 20px;
 }
 
-nav ul li a {
-    color: #fff;
+nav ul li a, .download-button {
+    color: #e0e0e0;
     text-decoration: none;
-    font-size: 1rem; /* Ajusta el tamaño del texto de los enlaces si es necesario */
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
-.download {
-    margin-left: 1rem;
-}
-
-.download-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 0.4rem 0.8rem; /* Tamaño reducido del botón */
-    text-decoration: none;
+    font-size: 1.2em;
+    padding: 15px 25px;
+    background: transparent;
+    border: 2px solid #e60000;
     border-radius: 5px;
-    font-size: 0.8rem; /* Tamaño de fuente reducido */
     cursor: pointer;
-    transition: background-color 0.3s; /* Transición suave para el hover */
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 15px; /* Espacio adicional para el botón de descarga */
 }
 
-.download-button:hover {
-    background-color: #0056b3;
+nav ul li a:hover, .download-button:hover {
+    background-color: #e60000;
+    color: #0d0d0d;
 }
 
-/* Main Section Styles */
+/* Sección principal */
 main {
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
 }
 
+/* Juego */
 #gameContainer {
     width: 100%;
-    max-width: 800px;
+    height: 80%; /* Ocupa la mayor parte del main */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
     position: relative;
 }
 
-/* Fullscreen Button Styles */
 #fullscreenButton {
-    background-color: #007bff;
-    color: #fff;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #555;
+    color: white;
     border: none;
-    padding: 0.4rem 0.8rem; /* Tamaño reducido del botón */
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 0.8rem; /* Tamaño de fuente reducido */
     cursor: pointer;
-    transition: background-color 0.3s; /* Transición suave para el hover */
+    z-index: 10;
+    font-size: 16px;
 }
 
 #fullscreenButton:hover {
-    background-color: #0056b3;
+    background-color: #777;
 }
 
-/* Footer Styles */
+/* Pie de página */
 footer {
-    background-color: #333;
-    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
     text-align: center;
-    padding: 1rem;
-    font-size: 0.9rem; /* Ajusta el tamaño del texto en el pie de página si es necesario */
+    padding: 10px;
+    border-top: 2px solid #e60000;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1em;
 }
