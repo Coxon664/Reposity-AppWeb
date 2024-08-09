@@ -69,43 +69,10 @@ main {
     align-items: center;
 }
 
-.hero {
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 50px;
-    border: 2px solid #e60000;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #e60000;
-}
-
-.hero h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 1.5em;
-    margin-bottom: 30px;
-}
-
-.hero button {
-    font-size: 1.2em;
-    padding: 10px 20px;
-    color: #0d0d0d;
-    background: #e60000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.hero button:hover {
-    background: #cc0000;
-}
-
 /* Juego */
 #gameContainer {
     width: 100%;
-    height: 100%;
+    height: 80%; /* Ocupa la mayor parte del main */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -128,6 +95,42 @@ main {
 
 #fullscreenButton:hover {
     background-color: #777;
+}
+
+/* Sección de descarga del juego */
+.download-section {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px solid #e60000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #e60000;
+    width: 300px; /* Sección más pequeña */
+    text-align: center;
+}
+
+.download-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.download-section p {
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+.download-section button {
+    font-size: 1em;
+    padding: 10px 20px;
+    color: #0d0d0d;
+    background: #e60000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.download-section button:hover {
+    background: #cc0000;
 }
 
 /* Pie de página */
