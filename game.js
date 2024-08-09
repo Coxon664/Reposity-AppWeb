@@ -95,6 +95,10 @@ function create() {
 }
 
 function update() {
+    if (gameOverText) {
+        return; // Si ya hay un mensaje de Game Over, no actualices el juego
+    }
+
     player.setVelocity(0);
 
     if (cursors.left.isDown) {
@@ -116,12 +120,11 @@ function update() {
     });
 
     // Verifica si se ha acabado el juego
-    if (health <= 0 || (currentBullets < 0 && (gracePeriod === null || this.time.now > gracePeriod))) {
-        gameOver();
-    }
-
-    // Activar el período de gracia si se queda sin disparos
-    if (currentBullets <= 0 && gracePeriod === null) {
+    if (health <= 0) {
+        gameOver('te quedaste sin vida');
+    } else if (currentBullets < 0 && this.time.now > gracePeriod) {
+        gameOver('te quedaste sin disparos');
+    } else if (currentBullets <= 0 && gracePeriod === null) {
         gracePeriod = this.time.now + 5000; // 5 segundos de gracia
         bulletText.setText('Bullets: 0 (5s to recover)'); // Indica al jugador que tiene 5 segundos
     }
@@ -175,27 +178,17 @@ function hitPlayer(player, potion) {
 
     // Verifica si se ha acabado el juego
     if (health <= 0) {
-        gameOverReason = 'te quedaste sin vida';
-        gameOver();
+        gameOver('te quedaste sin vida');
     }
 }
 
-function gameOver() {
-    this.physics.pause();
-    player.setTint(0xff0000);
+function gameOver(reason) {
+    if (!gameOverText) {
+        this.physics.pause();
+        player.setTint(0xff0000);
 
-    // Determina el mensaje de Game Over
-    let message = 'Game Over';
-    if (currentBullets < 0) {
-        message += '\nPerdiste porque te quedaste sin disparos';
-    } else if (health <= 0) {
-        message += '\nPerdiste porque te quedaste sin vida';
-    }
-
-    // Muestra el mensaje de Game Over
-    if (gameOverText) {
-        gameOverText.setText(message);
-    } else {
-        gameOverText = this.add.text(300, 250, message, { fontSize: '64px', fill: '#ff0000' });
+        // Muestra el mensaje de Game Over
+        gameOverText = this.add.text(300, 250, 'Game Over\nPerdiste porque ' + reason, { fontSize: '64px', fill: '#ff0000', align: 'center' });
+        gameOverText.setOrigin(0.5, 0.5);
     }
 }
