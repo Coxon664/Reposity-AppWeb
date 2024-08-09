@@ -1,23 +1,27 @@
 /* Importando una fuente espeluznante */
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
 /* Estilos generales */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Creepster', cursive;
     color: #e0e0e0;
-    background: #0d0d0d url('assets/background.jpg') no-repeat center center fixed;
+    background: #0d0d0d url('assets/fondo.jpg') no-repeat center center fixed;
     background-size: cover;
 }
+
 .container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+
 /* Espacio entre secciones */
 header, footer {
     margin-bottom: 20px;
 }
+
 /* Encabezado */
 header {
     background: rgba(0, 0, 0, 0.7);
@@ -25,42 +29,47 @@ header {
     text-align: center;
     border-bottom: 2px solid #e60000;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between; /* Ajusta el espacio entre los elementos del header */
     align-items: center;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas más pequeñas */
 }
+
 header h1 {
     margin: 0;
-    font-size: 3em;
+    font-size: 2em; /* Ajusta el tamaño del título */
     color: #e60000;
 }
+
 nav ul {
     list-style: none;
     padding: 0;
-    margin: 25px 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Añade espacio entre los elementos del menú */
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 20px;
-    margin: 0 10px;
+    margin: 0;
 }
 
 nav ul li a, .download-button {
     color: #e0e0e0;
     text-decoration: none;
-    font-size: 1.2em;
-    padding: 15px 25px;
+    font-size: 1em; /* Reducido el tamaño de fuente */
+    padding: 10px 15px; /* Reducido el tamaño del padding */
     background: transparent;
     border: 2px solid #e60000;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-    margin-top: 15px; /* Espacio adicional para el botón de descarga */
 }
+
 nav ul li a:hover, .download-button:hover {
     background-color: #e60000;
     color: #0d0d0d;
 }
+
 /* Sección principal */
 main {
     flex: 1;
@@ -69,6 +78,7 @@ main {
     justify-content: center;
     align-items: center;
 }
+
 /* Juego */
 #gameContainer {
     width: 100%;
@@ -79,21 +89,24 @@ main {
     background-color: black;
     position: relative;
 }
+
 #fullscreenButton {
     position: absolute;
     top: 10px;
     right: 10px;
-    padding: 10px 20px;
+    padding: 8px 15px; /* Reducido el tamaño del padding */
     background-color: #555;
     color: white;
     border: none;
     cursor: pointer;
     z-index: 10;
-    font-size: 16px;
+    font-size: 14px; /* Reducido el tamaño de la fuente */
 }
+
 #fullscreenButton:hover {
     background-color: #777;
 }
+
 /* Pie de página */
 footer {
     background: rgba(0, 0, 0, 0.7);
@@ -101,6 +114,7 @@ footer {
     padding: 10px;
     border-top: 2px solid #e60000;
 }
+
 footer p {
     margin: 0;
     font-size: 1em;
