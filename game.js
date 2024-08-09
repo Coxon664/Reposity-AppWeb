@@ -33,6 +33,7 @@ let currentBullets = maxBullets; // Disparos actuales
 let bulletText; // Texto para mostrar el número de disparos
 let gameOverText; // Texto para mostrar el mensaje de Game Over
 let gameOverReason = ''; // Razón del Game Over
+let gracePeriod; // Temporizador para el período de gracia
 
 const game = new Phaser.Game(config);
 
@@ -88,6 +89,9 @@ function create() {
     // Colisiones
     this.physics.add.collider(bullets, witches, hitWitch, null, this);
     this.physics.add.collider(witchGroup, player, hitPlayer, null, this);
+
+    // Inicializar el temporizador de gracia
+    gracePeriod = null;
 }
 
 function update() {
@@ -112,8 +116,14 @@ function update() {
     });
 
     // Verifica si se ha acabado el juego
-    if (health <= 0 || currentBullets < 0) {
+    if (health <= 0 || (currentBullets < 0 && (gracePeriod === null || this.time.now > gracePeriod))) {
         gameOver();
+    }
+
+    // Activar el período de gracia si se queda sin disparos
+    if (currentBullets <= 0 && gracePeriod === null) {
+        gracePeriod = this.time.now + 5000; // 5 segundos de gracia
+        bulletText.setText('Bullets: 0 (5s to recover)'); // Indica al jugador que tiene 5 segundos
     }
 }
 
