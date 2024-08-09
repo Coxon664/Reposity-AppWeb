@@ -28,6 +28,9 @@ let scoreText;
 let witchGroup;
 let health = 3;
 let healthText;
+let maxBullets = 10; // Número máximo de disparos
+let currentBullets = maxBullets; // Disparos actuales
+let bulletText; // Texto para mostrar el número de disparos
 
 const game = new Phaser.Game(config);
 
@@ -50,7 +53,7 @@ function create() {
     // Crear grupo de balas
     bullets = this.physics.add.group({
         defaultKey: 'bullet',
-        maxSize: 10
+        maxSize: maxBullets
     });
 
     // Crear grupo de brujas
@@ -68,6 +71,9 @@ function create() {
 
     // Crear indicador de salud
     healthText = this.add.text(16, 50, 'Health: 3', { fontSize: '32px', fill: '#fff' });
+
+    // Crear indicador de balas
+    bulletText = this.add.text(16, 84, 'Bullets: ' + currentBullets, { fontSize: '32px', fill: '#fff' });
 
     // Crear brujas periódicamente
     this.time.addEvent({
@@ -102,16 +108,25 @@ function update() {
             witch.destroy();
         }
     });
+
+    // Verifica si se han agotado los disparos
+    if (currentBullets <= 0) {
+        this.physics.pause();
+        player.setTint(0xff0000);
+        this.add.text(300, 250, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
+    }
 }
 
 function shootBullet() {
-    if (this.time.now > bulletTime) {
+    if (this.time.now > bulletTime && currentBullets > 0) {
         let bullet = bullets.get(player.x + 50, player.y);
         if (bullet) {
             bullet.setActive(true);
             bullet.setVisible(true);
             bullet.setVelocityX(400);
             bulletTime = this.time.now + 250;
+            currentBullets--;
+            bulletText.setText('Bullets: ' + currentBullets);
         }
     }
 }
@@ -139,6 +154,8 @@ function hitWitch(bullet, witch) {
     witch.destroy();
     score += 10;
     scoreText.setText('Score: ' + score);
+    currentBullets = Math.min(maxBullets, currentBullets + 1); // Añade un disparo extra pero no supera el máximo
+    bulletText.setText('Bullets: ' + currentBullets);
 }
 
 function hitPlayer(player, potion) {
