@@ -168,6 +168,10 @@ function hitWitch(bullet, witch) {
     scoreText.setText('Score: ' + score);
     currentBullets = Math.min(maxBullets, currentBullets + 1);
     bulletText.setText('Bullets: ' + currentBullets);
+
+    scoreText.setText('Score: ' + score);
+    document.getElementById('ranking').innerText = 'Puntaje: ' + score;
+
 }
 
 function hitPlayer(player, potion) {
@@ -203,7 +207,7 @@ function gameOver(reason) {
         document.body.appendChild(nameInput);
         nameInput.style.position = 'absolute';
         nameInput.style.left = '50%';
-        nameInput.style.top = '60%';
+        nameInput.style.top = '65%';
         nameInput.style.transform = 'translateX(-50%)';
 
         // Crear un botón para enviar los datos
