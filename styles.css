@@ -19,11 +19,7 @@ body {
 
 /* Espacio entre secciones */
 header, footer {
-    margin-bottom: 20px; /* Espacio entre header y las siguientes secciones */
-}
-
-.hero, #gameContainer {
-    margin-bottom: 20px; /* Espacio entre secciones dentro del main */
+    margin-bottom: 20px;
 }
 
 /* Encabezado */
@@ -32,6 +28,9 @@ header {
     padding: 20px;
     text-align: center;
     border-bottom: 2px solid #e60000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header h1 {
@@ -43,6 +42,7 @@ header h1 {
 nav ul {
     list-style: none;
     padding: 0;
+    margin: 10px 0;
 }
 
 nav ul li {
@@ -58,6 +58,24 @@ nav ul li a {
 
 nav ul li a:hover {
     color: #e60000;
+}
+
+.download {
+    margin-top: 15px;
+}
+
+.download button {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    color: #0d0d0d;
+    background: #e60000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.download button:hover {
+    background: #cc0000;
 }
 
 /* Sección principal */
@@ -95,42 +113,6 @@ main {
 
 #fullscreenButton:hover {
     background-color: #777;
-}
-
-/* Sección de descarga del juego */
-.download-section {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    margin-top: 20px;
-    border: 2px solid #e60000;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #e60000;
-    width: 300px; /* Sección más pequeña */
-    text-align: center;
-}
-
-.download-section h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-}
-
-.download-section p {
-    font-size: 1em;
-    margin-bottom: 20px;
-}
-
-.download-section button {
-    font-size: 1em;
-    padding: 10px 20px;
-    color: #0d0d0d;
-    background: #e60000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.download-section button:hover {
-    background: #cc0000;
 }
 
 /* Pie de página */
