@@ -3,6 +3,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4; /* Ajusta el fondo de la página si es necesario */
 }
 
 .container {
@@ -11,6 +12,7 @@ body {
     min-height: 100vh;
 }
 
+/* Header Styles */
 header {
     background-color: #333;
     color: #fff;
@@ -18,10 +20,12 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas más pequeñas */
 }
 
 header h1 {
     margin: 0;
+    font-size: 1.5rem; /* Ajusta el tamaño del título si es necesario */
 }
 
 nav ul {
@@ -29,6 +33,7 @@ nav ul {
     padding: 0;
     margin: 0;
     display: flex;
+    align-items: center;
 }
 
 nav ul li {
@@ -38,32 +43,40 @@ nav ul li {
 nav ul li a {
     color: #fff;
     text-decoration: none;
+    font-size: 1rem; /* Ajusta el tamaño del texto de los enlaces si es necesario */
 }
 
 nav ul li a:hover {
     text-decoration: underline;
 }
 
+.download {
+    margin-left: 1rem;
+}
+
 .download-button {
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem; /* Tamaño reducido del botón */
     text-decoration: none;
     border-radius: 5px;
-    font-size: 0.9rem;
+    font-size: 0.8rem; /* Tamaño de fuente reducido */
     cursor: pointer;
+    transition: background-color 0.3s; /* Transición suave para el hover */
 }
 
 .download-button:hover {
     background-color: #0056b3;
 }
 
+/* Main Section Styles */
 main {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
 }
 
 #gameContainer {
@@ -72,24 +85,28 @@ main {
     position: relative;
 }
 
+/* Fullscreen Button Styles */
 #fullscreenButton {
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 0.8rem; /* Tamaño reducido del botón */
     text-decoration: none;
     border-radius: 5px;
-    font-size: 0.9rem;
+    font-size: 0.8rem; /* Tamaño de fuente reducido */
     cursor: pointer;
+    transition: background-color 0.3s; /* Transición suave para el hover */
 }
 
 #fullscreenButton:hover {
     background-color: #0056b3;
 }
 
+/* Footer Styles */
 footer {
     background-color: #333;
     color: #fff;
     text-align: center;
     padding: 1rem;
+    font-size: 0.9rem; /* Ajusta el tamaño del texto en el pie de página si es necesario */
 }
