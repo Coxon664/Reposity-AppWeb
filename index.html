@@ -41,7 +41,7 @@
 
         #gameContainer {
             width: 100%;
-            height: 600px; /* Ajustar según el tamaño deseado */
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -99,60 +99,31 @@
     </div>
 
     <script>
-        const config = {
-            type: Phaser.AUTO,
-            width: 800,
-            height: 600,
-            parent: 'gameContainer',
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { y: 0 },
-                    debug: false
-                }
-            },
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
-            }
-        };
-
-        const game = new Phaser.Game(config);
-
         // Función para alternar la pantalla completa
         document.getElementById('fullscreenButton').addEventListener('click', function () {
+            let gameContainer = document.getElementById('gameContainer');
             if (!document.fullscreenElement) {
-                document.getElementById('gameContainer').requestFullscreen().then(() => {
-                    game.scale.resize(window.innerWidth, window.innerHeight);
-                }).catch(err => {
-                    console.error("Error al entrar en pantalla completa:", err);
-                });
+                if (gameContainer.requestFullscreen) {
+                    gameContainer.requestFullscreen();
+                } else if (gameContainer.mozRequestFullScreen) { // Firefox
+                    gameContainer.mozRequestFullScreen();
+                } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    gameContainer.webkitRequestFullscreen();
+                } else if (gameContainer.msRequestFullscreen) { // IE/Edge
+                    gameContainer.msRequestFullscreen();
+                }
             } else {
-                document.exitFullscreen().then(() => {
-                    game.scale.resize(800, 600);
-                }).catch(err => {
-                    console.error("Error al salir de pantalla completa:", err);
-                });
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { // IE/Edge
+                    document.msExitFullscreen();
+                }
             }
         });
-
-        function preload() {
-            this.load.image('background', 'assets/background.png');
-            this.load.image('sofia', 'assets/sofia.png');
-            this.load.image('bullet', 'assets/knife.png');
-            this.load.image('witch', 'assets/witch.png');
-            this.load.image('potion', 'assets/potion.png');
-        }
-
-        function create() {
-            this.add.image(400, 300, 'background');
-            // Resto de la lógica del juego...
-        }
-
-        function update() {
-            // Lógica de actualización del juego...
-        }
     </script>
 </body>
 </html>
