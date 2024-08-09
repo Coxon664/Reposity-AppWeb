@@ -31,6 +31,8 @@ let healthText;
 let maxBullets = 10; // Número máximo de disparos
 let currentBullets = maxBullets; // Disparos actuales
 let bulletText; // Texto para mostrar el número de disparos
+let gameOverText; // Texto para mostrar el mensaje de Game Over
+let gameOverReason = ''; // Razón del Game Over
 
 const game = new Phaser.Game(config);
 
@@ -109,11 +111,9 @@ function update() {
         }
     });
 
-    // Verifica si se han agotado los disparos
-    if (currentBullets <= 0) {
-        this.physics.pause();
-        player.setTint(0xff0000);
-        this.add.text(300, 250, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
+    // Verifica si se ha acabado el juego
+    if (health <= 0 || currentBullets < 0) {
+        gameOver();
     }
 }
 
@@ -126,7 +126,7 @@ function shootBullet() {
             bullet.setVelocityX(400);
             bulletTime = this.time.now + 250;
             currentBullets--;
-            bulletText.setText('Bullets: ' + currentBullets);
+            bulletText.setText('Bullets: ' + currentBullets); // Actualiza el texto de balas
         }
     }
 }
@@ -155,7 +155,7 @@ function hitWitch(bullet, witch) {
     score += 10;
     scoreText.setText('Score: ' + score);
     currentBullets = Math.min(maxBullets, currentBullets + 1); // Añade un disparo extra pero no supera el máximo
-    bulletText.setText('Bullets: ' + currentBullets);
+    bulletText.setText('Bullets: ' + currentBullets); // Actualiza el texto de balas
 }
 
 function hitPlayer(player, potion) {
@@ -163,9 +163,29 @@ function hitPlayer(player, potion) {
     health -= 1;
     healthText.setText('Health: ' + health);
 
+    // Verifica si se ha acabado el juego
     if (health <= 0) {
-        this.physics.pause();
-        player.setTint(0xff0000);
-        this.add.text(300, 250, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
+        gameOverReason = 'te quedaste sin vida';
+        gameOver();
+    }
+}
+
+function gameOver() {
+    this.physics.pause();
+    player.setTint(0xff0000);
+
+    // Determina el mensaje de Game Over
+    let message = 'Game Over';
+    if (currentBullets < 0) {
+        message += '\nPerdiste porque te quedaste sin disparos';
+    } else if (health <= 0) {
+        message += '\nPerdiste porque te quedaste sin vida';
+    }
+
+    // Muestra el mensaje de Game Over
+    if (gameOverText) {
+        gameOverText.setText(message);
+    } else {
+        gameOverText = this.add.text(300, 250, message, { fontSize: '64px', fill: '#ff0000' });
     }
 }
