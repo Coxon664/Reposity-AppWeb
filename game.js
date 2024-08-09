@@ -1,3 +1,4 @@
+// Configuración básica del juego
 const config = {
     type: Phaser.AUTO,
     width: 800,
@@ -17,111 +18,127 @@ const config = {
     }
 };
 
-const game = new Phaser.Game(config);
-
 let player;
 let cursors;
+let bullets;
+let bulletTime = 0;
 let witches;
-let playerBullets;
-let witchBullets;
 let score = 0;
 let scoreText;
-let lastFired = 0;
+let witchGroup;
+
+const game = new Phaser.Game(config);
 
 function preload() {
     this.load.image('background', 'assets/background.png');
-    this.load.image('player', 'assets/player.png'); // Image for Sofia
-    this.load.image('witch', 'assets/witch.png'); // Image for witches
-    this.load.image('potion', 'assets/potion.png'); // Image for potions (bullets)
+    this.load.image('sofia', 'assets/sofia.png');
+    this.load.image('bullet', 'assets/bullet.png');
+    this.load.image('witch', 'assets/witch.png');
+    this.load.image('potion', 'assets/potion.png');
 }
 
 function create() {
+    // Fondo del juego
     this.add.image(400, 300, 'background');
 
-    player = this.physics.add.sprite(100, 300, 'player').setScale(0.5);
+    // Crear jugador (Sofía)
+    player = this.physics.add.sprite(100, 300, 'sofia');
     player.setCollideWorldBounds(true);
 
-    cursors = this.input.keyboard.createCursorKeys();
-
-    witches = this.physics.add.group({
-        key: 'witch',
-        repeat: 5,
-        setXY: { x: 400, y: 100, stepX: 100, stepY: 50 }
-    });
-
-    witches.children.iterate(function (child) {
-        child.setCollideWorldBounds(true);
-        child.setBounce(1);
-        child.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    });
-
-    playerBullets = this.physics.add.group({
-        defaultKey: 'potion',
+    // Crear grupo de balas
+    bullets = this.physics.add.group({
+        defaultKey: 'bullet',
         maxSize: 10
     });
 
-    witchBullets = this.physics.add.group({
-        defaultKey: 'potion',
-        maxSize: 20
+    // Crear grupo de brujas
+    witches = this.physics.add.group();
+
+    // Crear un grupo de pociones que las brujas lanzan
+    witchGroup = this.physics.add.group();
+
+    // Control del teclado
+    cursors = this.input.keyboard.createCursorKeys();
+    this.input.keyboard.on('keydown-SPACE', shootBullet, this);
+
+    // Crear puntuación
+    scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+
+    // Crear brujas periódicamente
+    this.time.addEvent({
+        delay: 2000,
+        callback: spawnWitch,
+        callbackScope: this,
+        loop: true
     });
 
-    this.physics.add.collider(player, witches, hitPlayer, null, this);
-    this.physics.add.overlap(playerBullets, witches, destroyWitch, null, this);
-    this.physics.add.collider(player, witchBullets, hitPlayer, null, this);
-
-    scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000' });
+    // Colisiones
+    this.physics.add.collider(bullets, witches, hitWitch, null, this);
+    this.physics.add.collider(witchGroup, player, hitPlayer, null, this);
 }
 
-function update(time, delta) {
+function update() {
+    player.setVelocity(0);
+
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
     } else if (cursors.right.isDown) {
         player.setVelocityX(160);
-    } else {
-        player.setVelocityX(0);
     }
 
     if (cursors.up.isDown) {
         player.setVelocityY(-160);
     } else if (cursors.down.isDown) {
         player.setVelocityY(160);
-    } else {
-        player.setVelocityY(0);
-    }
-
-    if (Phaser.Input.Keyboard.JustDown(cursors.space) && time > lastFired) {
-        const bullet = playerBullets.get(player.x, player.y);
-
-        if (bullet) {
-            bullet.setActive(true);
-            bullet.setVisible(true);
-            bullet.setVelocityX(300);
-            lastFired = time + 500;
-        }
     }
 
     witches.children.iterate(function (witch) {
-        if (Phaser.Math.Between(0, 100) < 2) {
-            const bullet = witchBullets.get(witch.x, witch.y);
-            if (bullet) {
-                bullet.setActive(true);
-                bullet.setVisible(true);
-                bullet.setVelocityX(-200);
-            }
+        if (witch.active && witch.x < 0) {
+            witch.destroy();
         }
     });
 }
 
-function hitPlayer(player, bullet) {
-    bullet.destroy();
-    player.setTint(0xff0000);
-    player.anims.play('turn');
-    this.physics.pause();
+function shootBullet() {
+    if (this.time.now > bulletTime) {
+        let bullet = bullets.get(player.x + 50, player.y);
+        if (bullet) {
+            bullet.setActive(true);
+            bullet.setVisible(true);
+            bullet.setVelocityX(400);
+            bulletTime = this.time.now + 250;
+        }
+    }
 }
 
-function destroyWitch(bullet, witch) {
+function spawnWitch() {
+    let witch = witches.create(800, Phaser.Math.Between(50, 550), 'witch');
+    witch.setVelocityX(-100);
+    witchGroup.add(witch);
+
+    this.time.addEvent({
+        delay: 1000,
+        callback: function () {
+            if (witch.active) {
+                let potion = witchGroup.create(witch.x, witch.y, 'potion');
+                potion.setVelocityX(-200);
+            }
+        },
+        callbackScope: this,
+        loop: false
+    });
+}
+
+function hitWitch(bullet, witch) {
     bullet.destroy();
     witch.destroy();
     score += 10;
     scoreText.setText('Score: ' + score);
+}
+
+function hitPlayer(player, potion) {
+    potion.destroy();
+    this.physics.pause();
+    player.setTint(0xff0000);
+    this.add.text(300, 250, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
 }
