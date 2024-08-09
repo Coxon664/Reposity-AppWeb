@@ -28,12 +28,11 @@ let scoreText;
 let witchGroup;
 let health = 3;
 let healthText;
-let maxBullets = 10; // Número máximo de disparos
-let currentBullets = maxBullets; // Disparos actuales
-let bulletText; // Texto para mostrar el número de disparos
-let gameOverText; // Texto para mostrar el mensaje de Game Over
-let gameOverReason = ''; // Razón del Game Over
-let gracePeriod; // Temporizador para el período de gracia
+let maxBullets = 10;
+let currentBullets = maxBullets;
+let bulletText;
+let gameOverText;
+let gracePeriod;
 
 const game = new Phaser.Game(config);
 
@@ -47,7 +46,7 @@ function preload() {
 
 function create() {
     // Fondo del juego
-    this.add.image(500, 400, 'background'); // Ajustado para centrar el fondo
+    this.add.image(400, 300, 'background');
 
     // Crear jugador (Sofía)
     player = this.physics.add.sprite(100, 300, 'sofia');
@@ -121,12 +120,12 @@ function update() {
 
     // Verifica si se ha acabado el juego
     if (health <= 0) {
-        gameOver('te quedaste sin vida');
+        gameOver.call(this, 'te quedaste sin vida');
     } else if (currentBullets <= 0 && this.time.now > gracePeriod) {
-        gameOver('te quedaste sin disparos');
-    } else if (currentBullets === 0 && gracePeriod === null) {
+        gameOver.call(this, 'te quedaste sin disparos');
+    } else if (currentBullets <= 0 && gracePeriod === null) {
         gracePeriod = this.time.now + 5000; // 5 segundos de gracia
-        bulletText.setText('Bullets: 0 (Te quedaste sin disparos)'); // Indica al jugador que tiene 5 segundos
+        bulletText.setText('Bullets: 0 (Te quedaste sin disparos)');
     }
 }
 
@@ -139,7 +138,7 @@ function shootBullet() {
             bullet.setVelocityX(400);
             bulletTime = this.time.now + 250;
             currentBullets--;
-            bulletText.setText('Bullets: ' + currentBullets); // Actualiza el texto de balas
+            bulletText.setText('Bullets: ' + currentBullets);
         }
     }
 }
@@ -167,8 +166,8 @@ function hitWitch(bullet, witch) {
     witch.destroy();
     score += 10;
     scoreText.setText('Score: ' + score);
-    currentBullets = Math.min(maxBullets, currentBullets + 1); // Añade un disparo extra pero no supera el máximo
-    bulletText.setText('Bullets: ' + currentBullets); // Actualiza el texto de balas
+    currentBullets = Math.min(maxBullets, currentBullets + 1);
+    bulletText.setText('Bullets: ' + currentBullets);
 }
 
 function hitPlayer(player, potion) {
@@ -178,17 +177,65 @@ function hitPlayer(player, potion) {
 
     // Verifica si se ha acabado el juego
     if (health <= 0) {
-        gameOver('te quedaste sin vida');
+        gameOver.call(this, 'te quedaste sin vida');
     }
 }
 
 function gameOver(reason) {
     if (!gameOverText) {
-        this.physics.pause();
-        player.setTint(0xff0000);
+        this.physics.pause(); // Detiene toda la física del juego
+        player.setTint(0xff0000); // Cambia el color del jugador para indicar que perdió
 
-        // Muestra el mensaje de Game Over
-        gameOverText = this.add.text(500, 400, 'Game Over\nPerdiste porque ' + reason, { fontSize: '64px', fill: '#ff0000', align: 'center' });
-        gameOverText.setOrigin(0.5, 0.5);
+        // Muestra el mensaje de Game Over y la razón
+        gameOverText = this.add.text(
+            config.width / 2, // Centro horizontal de la pantalla
+            config.height / 2, // Centro vertical de la pantalla
+            'Game Over\nPerdiste porque ' + reason + '\nPuntaje: ' + score, 
+            { fontSize: '35px', fill: '#ff0000', align: 'center' }
+        );
+        gameOverText.setOrigin(0.5); // Centra el texto
+
+        // Crear un formulario HTML para que el jugador ingrese su nombre
+        let nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.placeholder = 'Ingresa tu nombre';
+        nameInput.id = 'nameInput';
+        document.body.appendChild(nameInput);
+        nameInput.style.position = 'absolute';
+        nameInput.style.left = '50%';
+        nameInput.style.top = '60%';
+        nameInput.style.transform = 'translateX(-50%)';
+
+        // Crear un botón para enviar los datos
+        let saveButton = document.createElement('button');
+        saveButton.textContent = 'Guardar';
+        saveButton.id = 'saveButton';
+        document.body.appendChild(saveButton);
+        saveButton.style.position = 'absolute';
+        saveButton.style.left = '50%';
+        saveButton.style.top = '70%';
+        saveButton.style.transform = 'translateX(-50%)';
+
+        // Manejar el clic en el botón de guardar
+        saveButton.addEventListener('click', function() {
+            let playerName = nameInput.value;
+            if (playerName) {
+                saveScore(playerName, score); // Función para guardar el nombre y puntaje en la base de datos
+                alert('Puntaje guardado con éxito');
+            }
+        });
     }
 }
+
+function saveScore(name, score) {
+    // Aquí puedes agregar el código para enviar los datos a tu base de datos.
+    // Ejemplo:
+    // fetch('/guardar_puntaje', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ nombre: name, puntaje: score })
+    // });
+}
+
