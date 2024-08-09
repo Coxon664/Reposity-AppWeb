@@ -144,7 +144,7 @@ function shootBullet() {
 }
 
 function spawnWitch() {
-    let witch = witches.create(800, Phaser.Math.Between(50, 550), 'witch');
+    let witch = witches.create(900, Phaser.Math.Between(50, 550), 'witch');
     witch.setVelocityX(-100);
     witchGroup.add(witch);
 
