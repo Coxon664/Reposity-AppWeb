@@ -126,7 +126,7 @@ function update() {
         gameOver('te quedaste sin disparos');
     } else if (currentBullets <= 0 && gracePeriod === null) {
         gracePeriod = this.time.now + 5000; // 5 segundos de gracia
-        bulletText.setText('Bullets: 0 (5s to recover)'); // Indica al jugador que tiene 5 segundos
+        bulletText.setText('Bullets: 0 (Te quedaste sin disparos)'); // Indica al jugador que tiene 5 segundos
     }
 }
 
