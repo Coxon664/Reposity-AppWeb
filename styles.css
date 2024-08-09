@@ -7,7 +7,7 @@ body {
     padding: 0;
     font-family: 'Creepster', cursive;
     color: #e0e0e0;
-    background: #0d0d0d url('C:\Users\usuario\Documents\Materias\8D\Yakko\Comic\Imagenes') no-repeat center center fixed;
+    background: #0d0d0d url('assets/fondo.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
