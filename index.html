@@ -89,7 +89,7 @@
             </section>
             <section>
                 <div id="gameContainer">
-                    <button id="fullscreenButton">Pantalla Completa</button>
+                    <button id="fullscreenButton">Full Screen</button>
                 </div>
             </section>
         </main>
@@ -99,6 +99,8 @@
     </div>
 
     <script>
+        const game = new Phaser.Game(config);
+
         // Función para alternar la pantalla completa
         document.getElementById('fullscreenButton').addEventListener('click', function () {
             let gameContainer = document.getElementById('gameContainer');
@@ -124,6 +126,16 @@
                 }
             }
         });
+
+        // Ajustar el tamaño del juego cuando entre o salga del modo pantalla completa
+        function resizeGame() {
+            game.scale.resize(window.innerWidth, window.innerHeight);
+        }
+
+        document.addEventListener('fullscreenchange', resizeGame);
+        document.addEventListener('webkitfullscreenchange', resizeGame);
+        document.addEventListener('mozfullscreenchange', resizeGame);
+        document.addEventListener('MSFullscreenChange', resizeGame);
     </script>
 </body>
 </html>
