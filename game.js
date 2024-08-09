@@ -47,7 +47,7 @@ function preload() {
 
 function create() {
     // Fondo del juego
-    this.add.image(400, 300, 'background');
+    this.add.image(500, 400, 'background'); // Ajustado para centrar el fondo
 
     // Crear jugador (Sofía)
     player = this.physics.add.sprite(100, 300, 'sofia');
@@ -122,9 +122,9 @@ function update() {
     // Verifica si se ha acabado el juego
     if (health <= 0) {
         gameOver('te quedaste sin vida');
-    } else if (currentBullets < 0 && this.time.now > gracePeriod) {
+    } else if (currentBullets <= 0 && this.time.now > gracePeriod) {
         gameOver('te quedaste sin disparos');
-    } else if (currentBullets <= 0 && gracePeriod === null) {
+    } else if (currentBullets === 0 && gracePeriod === null) {
         gracePeriod = this.time.now + 5000; // 5 segundos de gracia
         bulletText.setText('Bullets: 0 (Te quedaste sin disparos)'); // Indica al jugador que tiene 5 segundos
     }
@@ -188,7 +188,7 @@ function gameOver(reason) {
         player.setTint(0xff0000);
 
         // Muestra el mensaje de Game Over
-        gameOverText = this.add.text(300, 250, 'Game Over\nPerdiste porque ' + reason, { fontSize: '64px', fill: '#ff0000', align: 'center' });
+        gameOverText = this.add.text(500, 400, 'Game Over\nPerdiste porque ' + reason, { fontSize: '64px', fill: '#ff0000', align: 'center' });
         gameOverText.setOrigin(0.5, 0.5);
     }
 }
