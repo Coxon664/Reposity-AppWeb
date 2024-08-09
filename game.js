@@ -26,13 +26,15 @@ let witches;
 let score = 0;
 let scoreText;
 let witchGroup;
+let health = 3;
+let healthText;
 
 const game = new Phaser.Game(config);
 
 function preload() {
-    this.load.image('background', 'assets/background.png');
+    this.load.image('background', 'assets/background.jpg');
     this.load.image('sofia', 'assets/sofia.png');
-    this.load.image('bullet', 'assets/bullet.png');
+    this.load.image('bullet', 'assets/knife.png');
     this.load.image('witch', 'assets/witch.png');
     this.load.image('potion', 'assets/potion.png');
 }
@@ -63,6 +65,9 @@ function create() {
 
     // Crear puntuación
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
+
+    // Crear indicador de salud
+    healthText = this.add.text(16, 50, 'Health: 3', { fontSize: '32px', fill: '#fff' });
 
     // Crear brujas periódicamente
     this.time.addEvent({
@@ -138,7 +143,12 @@ function hitWitch(bullet, witch) {
 
 function hitPlayer(player, potion) {
     potion.destroy();
-    this.physics.pause();
-    player.setTint(0xff0000);
-    this.add.text(300, 250, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
+    health -= 1;
+    healthText.setText('Health: ' + health);
+
+    if (health <= 0) {
+        this.physics.pause();
+        player.setTint(0xff0000);
+        this.add.text(300, 250, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
+    }
 }
