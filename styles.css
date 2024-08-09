@@ -50,32 +50,21 @@ nav ul li {
     margin: 0 15px;
 }
 
-nav ul li a {
+nav ul li a, .download-button {
     color: #e0e0e0;
     text-decoration: none;
     font-size: 1.2em;
-}
-
-nav ul li a:hover {
-    color: #e60000;
-}
-
-.download {
-    margin-top: 15px;
-}
-
-.download button {
-    font-size: 1.2em;
     padding: 10px 20px;
-    color: #0d0d0d;
-    background: #e60000;
-    border: none;
+    background: transparent;
+    border: 2px solid #e60000;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.download button:hover {
-    background: #cc0000;
+nav ul li a:hover, .download-button:hover {
+    background-color: #e60000;
+    color: #0d0d0d;
 }
 
 /* Sección principal */
