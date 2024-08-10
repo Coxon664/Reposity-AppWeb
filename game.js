@@ -209,7 +209,19 @@ function gameOver(reason) {
         // Crear un rectángulo semitransparente como fondo para el texto de Game Over
         const graphics = this.add.graphics();
         graphics.fillStyle(0x001111, 1); // Negro con 70% de transparencia
-        graphics.fillRect(config.width / 2 - 250, config.height / 2 - 100, 500, 200); // Rectángulo centrado
+
+        // Parámetros originales
+        const originalWidth = 500;
+        const originalHeight = 200;
+        const margin = 40; // Margen proporcional (puedes ajustar este valor)
+
+        // Ajustar la posición y tamaño del rectángulo
+        const newWidth = originalWidth + 2 * margin;
+        const newHeight = originalHeight + 2 * margin;
+        const x = (config.width / 2) - (newWidth / 2);
+        const y = (config.height / 2) - (newHeight / 2);
+
+        graphics.fillRect(x, y, newWidth, newHeight); // Rectángulo centrado con márgenes ajustados
 
         // Muestra el mensaje de Game Over, la razón y el tiempo transcurrido
         gameOverText = this.add.text(
