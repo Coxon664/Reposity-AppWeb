@@ -212,7 +212,7 @@ function gameOver(reason) {
 
         // Parámetros originales
         const originalWidth = 500;
-        const originalHeight = 200;
+        const originalHeight = 250;
         const margin = 40; // Margen proporcional (puedes ajustar este valor)
 
         // Ajustar la posición y tamaño del rectángulo
