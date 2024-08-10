@@ -45,6 +45,7 @@ function preload() {
     this.load.image('bullet', 'assets/knife.png');
     this.load.image('witch', 'assets/witch.png');
     this.load.image('potion', 'assets/potion.png');
+    this.load.audio('backgroundMusic', 'assets/backgroundMusic.mp3');
 }
 
 function create() {
@@ -100,6 +101,8 @@ function create() {
 
     // Inicializar el tiempo de inicio
     startTime = this.time.now;
+
+    
 }
 
 function update() {
@@ -240,7 +243,7 @@ function gameOver(reason) {
         document.body.appendChild(nameInput);
         nameInput.style.position = 'absolute';
         nameInput.style.left = '50%';
-        nameInput.style.top = '85%';
+        nameInput.style.top = '120%';
         nameInput.style.transform = 'translateX(-50%)';
 
         // Crear un botón para enviar los datos
