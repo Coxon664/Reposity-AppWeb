@@ -75,7 +75,7 @@ function create() {
     healthText = this.add.text(16, 50, 'Health: 3', { fontSize: '32px', fill: '#fff' });
 
     // Crear indicador de balas
-    bulletText = this.add.text(16, 84, 'Bullets: ' + currentBullets, { fontSize: '32px', fill: '#fff' });
+    bulletText = this.add.text(16, 84, 'Shots: ' + currentBullets, { fontSize: '32px', fill: '#fff' });
 
     // Crear brujas periódicamente
     this.time.addEvent({
@@ -125,7 +125,7 @@ function update() {
         gameOver.call(this, 'te quedaste sin disparos');
     } else if (currentBullets <= 0 && gracePeriod === null) {
         gracePeriod = this.time.now + 5000; // 5 segundos de gracia
-        bulletText.setText('Bullets: 0 (Te quedaste sin disparos)');
+        bulletText.setText('Shots: 0 (Te quedaste sin disparos)');
     }
 }
 
@@ -138,18 +138,18 @@ function shootBullet() {
             bullet.setVelocityX(400);
             bulletTime = this.time.now + 250;
             currentBullets--;
-            bulletText.setText('Bullets: ' + currentBullets);
+            bulletText.setText('Shots: ' + currentBullets);
         }
     }
 }
 
 function spawnWitch() {
     let witch = witches.create(900, Phaser.Math.Between(50, 550), 'witch');
-    witch.setVelocityX(-100);
+    witch.setVelocityX(-10);
     witchGroup.add(witch);
 
     this.time.addEvent({
-        delay: 1000,
+        delay: 10,
         callback: function () {
             if (witch.active) {
                 let potion = witchGroup.create(witch.x, witch.y, 'potion');
