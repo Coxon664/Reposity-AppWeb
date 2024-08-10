@@ -33,6 +33,9 @@ let currentBullets = maxBullets;
 let bulletText;
 let gameOverText;
 let gracePeriod;
+let startTime; // Variable para almacenar el tiempo de inicio
+let elapsedTime; // Variable para el tiempo transcurrido
+let timeText; // Variable para mostrar el tiempo en pantalla
 
 const game = new Phaser.Game(config);
 
@@ -77,6 +80,9 @@ function create() {
     // Crear indicador de balas
     bulletText = this.add.text(16, 84, 'Shots: ' + currentBullets, { fontSize: '32px', fill: '#fff' });
 
+    // Crear texto para mostrar el tiempo transcurrido
+    timeText = this.add.text(16, 118, 'Time: 0.00', { fontSize: '32px', fill: '#fff' });
+
     // Crear brujas periódicamente
     this.time.addEvent({
         delay: 2000,
@@ -91,6 +97,9 @@ function create() {
 
     // Inicializar el temporizador de gracia
     gracePeriod = null;
+
+    // Inicializar el tiempo de inicio
+    startTime = this.time.now;
 }
 
 function update() {
@@ -118,11 +127,15 @@ function update() {
         }
     });
 
+    // Actualiza el tiempo transcurrido
+    elapsedTime = (this.time.now - startTime) / 1000; // Convierte a segundos
+    timeText.setText('Time: ' + elapsedTime.toFixed(2)); // Muestra el tiempo con dos decimales
+
     // Verifica si se ha acabado el juego
     if (health <= 0) {
-        gameOver.call(this, 'te quedaste sin vida');
+        gameOver.call(this, 'Te quedaste sin vida');
     } else if (currentBullets <= 0 && this.time.now > gracePeriod) {
-        gameOver.call(this, 'te quedaste sin disparos');
+        gameOver.call(this, 'Te quedaste sin disparos');
     } else if (currentBullets <= 0 && gracePeriod === null) {
         gracePeriod = this.time.now + 5000; // 5 segundos de gracia
         bulletText.setText('Shots: 0 (Te quedaste sin disparos)');
@@ -171,7 +184,6 @@ function hitWitch(bullet, witch) {
 
     scoreText.setText('Score: ' + score);
     document.getElementById('ranking').innerText = 'Puntaje: ' + score;
-
 }
 
 function hitPlayer(player, potion) {
@@ -181,7 +193,8 @@ function hitPlayer(player, potion) {
 
     // Verifica si se ha acabado el juego
     if (health <= 0) {
-        gameOver.call(this, 'te quedaste sin vida');
+        elapsedTime = this.time.now - startTime;
+        gameOver.call(this, 'Te quedaste sin vida');
     }
 }
 
@@ -190,11 +203,19 @@ function gameOver(reason) {
         this.physics.pause(); // Detiene toda la física del juego
         player.setTint(0xff0000); // Cambia el color del jugador para indicar que perdió
 
-        // Muestra el mensaje de Game Over y la razón
+        // Calcula el tiempo transcurrido en segundos
+        const timeTaken = (elapsedTime).toFixed(2);
+
+        // Crear un rectángulo semitransparente como fondo para el texto de Game Over
+        const graphics = this.add.graphics();
+        graphics.fillStyle(0x001111, 1); // Negro con 70% de transparencia
+        graphics.fillRect(config.width / 2 - 250, config.height / 2 - 100, 500, 200); // Rectángulo centrado
+
+        // Muestra el mensaje de Game Over, la razón y el tiempo transcurrido
         gameOverText = this.add.text(
             config.width / 2, // Centro horizontal de la pantalla
             config.height / 2, // Centro vertical de la pantalla
-            'Game Over\nPerdiste porque ' + reason + '\nPuntaje: ' + score, 
+            'Game Over\n' + reason + '\nPuntaje: ' + score + '\nTiempo: ' + timeTaken + ' segundos', 
             { fontSize: '35px', fill: '#ff0000', align: 'center' }
         );
         gameOverText.setOrigin(0.5); // Centra el texto
@@ -207,7 +228,7 @@ function gameOver(reason) {
         document.body.appendChild(nameInput);
         nameInput.style.position = 'absolute';
         nameInput.style.left = '50%';
-        nameInput.style.top = '65%';
+        nameInput.style.top = '85%';
         nameInput.style.transform = 'translateX(-50%)';
 
         // Crear un botón para enviar los datos
@@ -217,7 +238,7 @@ function gameOver(reason) {
         document.body.appendChild(saveButton);
         saveButton.style.position = 'absolute';
         saveButton.style.left = '50%';
-        saveButton.style.top = '70%';
+        saveButton.style.top = '90%';
         saveButton.style.transform = 'translateX(-50%)';
 
         // Manejar el clic en el botón de guardar
@@ -232,14 +253,5 @@ function gameOver(reason) {
 }
 
 function saveScore(name, score) {
-    // Aquí puedes agregar el código para enviar los datos a tu base de datos.
-    // Ejemplo:
-    // fetch('/guardar_puntaje', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ nombre: name, puntaje: score })
-    // });
+    // Implementa la lógica para guardar el nombre y puntaje en la base de datos
 }
-
