@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de Jugadores - La Venganza de Sofia</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+    <script defer src="game.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>La venganza de Sofia</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="https://heyzine.com/flip-book/efdc244000.html">Historieta</a></li>
+                    <li><a href="ranking.html">Ranking</a></li>
+                </ul>
+            </nav>
+            <div id="ranking">Puntaje: 0</div>
+            <div class="download">
+                <a href="ruta/a/tu/videojuego.zip" download="La_Venganza_de_Sofia.zip" class="download-button">Descargar el Videojuego</a>
+            </div>
+        </header>
+
+        <main>
+            <section id="ranking">
+                <h2>Ranking de Jugadores</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Jugador</th>
+                            <th>Puntaje</th>
+                            <th>Tiempo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingTableBody">
+                        <!-- Los puntajes se agregarán dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 La venganza de Sofia. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cargar los puntajes
+        async function loadScores() {
+            const response = await fetch('/api/scores');
+            const scores = await response.json();
+
+            const rankingTableBody = document.getElementById('rankingTableBody');
+            rankingTableBody.innerHTML = ''; // Limpiar tabla antes de añadir
+
+            scores.forEach(score => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${score.name}</td><td>${score.score}</td><td>${new Date(score.date).toLocaleString()}</td>`;
+                rankingTableBody.appendChild(row);
+            });
+        }
+
+        // Cargar puntajes al cargar la página
+        window.onload = loadScores;
+    </script>
+</body>
+</html>

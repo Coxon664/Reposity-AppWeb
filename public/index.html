@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Venganza de Sofia 2</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+    <script defer src="game.js"></script>
+
+    <style>
+        /* Estilos adicionales para el Ranking */
+        #ranking {
+            display: inline-block;
+            padding: 10px;
+            color: white;
+            font-size: 28px;
+            background-color: #555;
+            border-radius: 5px;
+            margin-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>La venganza de Sofia</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="https://heyzine.com/flip-book/efdc244000.html">Historieta</a></li>
+                    <li><a href="ranking.html" id="rankingLink">Ranking</a></li>
+                </ul>
+            </nav>
+            <div id="ranking">Puntaje: 0</div>
+            <div class="download">
+                <a href="./Descargable/Juego.zip" download="Juego.zip" class="download-button">Descargar el Videojuego</a>
+            </div>
+            
+        </header>
+
+        <main>
+            <section id="gameInstructions">
+                <h2>Instrucciones del Juego</h2>
+                <p>Bienvenido a <strong>La Venganza de Sofia</strong>.    A continuación, te explicamos cómo jugar:</p>
+                <ul>
+                    <li><strong>Flecha izquierda (←):</strong> Mover hacia la izquierda.</li>
+                    <li><strong>Flecha derecha (→):</strong> Mover hacia la derecha.</li>
+                    <li><strong>Flecha arriba (↑):</strong> Saltar.</li>
+                    <li><strong>Flecha abajo (↓):</strong> Agacharse.</li>
+                    <li><strong>Barra espaciadora:</strong> Atacar.</li>
+                </ul>
+                <p>Utiliza estas teclas para avanzar en el juego, derrotar a tus enemigos y superar los obstáculos. ¡Buena suerte!</p>
+            </section>
+            
+            <section>
+                <div id="gameContainer">
+                    <button id="fullscreenButton">Pantalla Completa</button>
+                </div>
+            </section>
+            
+            <!-- Sección de Ranking -->
+            <section id="ranking">
+                <h2>Ranking de Jugadores</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Jugador</th>
+                            <th>Puntaje</th>
+                            <th>Tiempo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingTableBody">
+                        <!-- Los puntajes se agregarán dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 La venganza de Sofia. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Función para cargar los puntajes
+        async function loadScores() {
+            const response = await fetch('/api/scores');
+            const scores = await response.json();
+
+            const rankingTableBody = document.getElementById('rankingTableBody');
+            rankingTableBody.innerHTML = ''; // Limpiar tabla antes de añadir
+
+            scores.forEach(score => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${score.name}</td><td>${score.score}</td><td>${new Date(score.date).toLocaleString()}</td>`;
+                rankingTableBody.appendChild(row);
+            });
+        }
+
+        // Cargar puntajes al cargar la página
+        window.onload = loadScores;
+    </script>
+</body>
+</html>
