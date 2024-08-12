@@ -7,7 +7,7 @@ body {
     padding: 0;
     font-family: 'Creepster', cursive;
     color: #e0e0e0;
-    background: #0d0d0d url('assets/fondo.jpg') no-repeat center center fixed;
+    background: #0d0d0d;
     background-size: cover;
 }
 
@@ -25,7 +25,7 @@ header, footer {
 /* Encabezado */
 header {
     background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     border-bottom: 2px solid #e60000;
     display: flex;
@@ -36,7 +36,7 @@ header {
 
 header h1 {
     margin: 0;
-    font-size: 2em; /* Ajusta el tamaño del título */
+    font-size: 4em; /* Ajusta el tamaño del título */
     color: #e60000;
 }
 
@@ -56,7 +56,7 @@ nav ul li {
 nav ul li a, .download-button {
     color: #e0e0e0;
     text-decoration: none;
-    font-size: 1em; /* Reducido el tamaño de fuente */
+    font-size: 2em; /* Reducido el tamaño de fuente */
     padding: 10px 15px; /* Reducido el tamaño del padding */
     background: transparent;
     border: 2px solid #e60000;
@@ -88,6 +88,20 @@ main {
     align-items: center;
     background-color: black;
     position: relative;
+    margin-top: 20px; /* Añadir margen superior para espacio */
+}
+
+
+/* Sección de Instrucciones del Juego */
+#gameInstructions {
+    font-size: 1.5em; /* Aumentar el tamaño de la fuente */
+    text-align: left; /* Alinear el texto a la izquierda */
+    margin: 20px; /* Añadir margen alrededor de la sección */
+}
+
+#gameInstructions h2 {
+    font-size: 1em; /* Aumentar el tamaño del encabezado */
+    color: #ff7171;
 }
 
 #fullscreenButton {
@@ -118,4 +132,36 @@ footer {
 footer p {
     margin: 0;
     font-size: 1em;
+}
+
+/* Sección de Ranking */
+#ranking {
+    display: inline-block;
+    padding: 10px;
+    color: white;
+    font-size: 28px;
+    background-color: #555;
+    border-radius: 5px;
+    margin-left: 20px;
+    margin-top: 50px; /* Añadir margen superior para espacio */
+    margin-bottom: 50px; /* Añadir margen inferior para espacio con el footer */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid white;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #444;
+    color: white;
 }
