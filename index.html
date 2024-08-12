@@ -7,10 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
     <script defer src="game.js"></script>
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
-    <!-- Firebase Realtime Database -->
-    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
+
     <style>
         /* Estilos adicionales para el Ranking */
         #ranking {
@@ -22,6 +19,25 @@
             border-radius: 5px;
             margin-left: 20px;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #444;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -30,23 +46,22 @@
             <h1>La venganza de Sofia</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Inicio</a></li>
+                    <li><a href="index.html">Inicio</a></li>
                     <li><a href="https://heyzine.com/flip-book/efdc244000.html">Historieta</a></li>
-                    <li><a href="#">Personajes</a></li>
-                    <li><a href="ranking.html">Ranking</a></li> <!-- Nuevo enlace a la página de ranking -->
+                    <li><a href="ranking.html" id="rankingLink">Ranking</a></li>
                 </ul>
             </nav>
             <div id="ranking">Puntaje: 0</div>
             <div class="download">
-                <a href="ruta/a/tu/videojuego.zip" download="La_Venganza_de_Sofia.zip" class="download-button">Descargar el Videojuego</a>
+                <a href="./Descargable/Juego.zip" download="Juego.zip" class="download-button">Descargar el Videojuego</a>
             </div>
+            
         </header>
 
         <main>
-            <!-- Instrucciones del juego -->
             <section id="gameInstructions">
                 <h2>Instrucciones del Juego</h2>
-                <p>Bienvenido a <strong>La Venganza de Sofia 2</strong>. A continuación, te explicamos cómo jugar:</p>
+                <p>Bienvenido a <strong>La Venganza de Sofia</strong>.    A continuación, te explicamos cómo jugar:</p>
                 <ul>
                     <li><strong>Flecha izquierda (←):</strong> Mover hacia la izquierda.</li>
                     <li><strong>Flecha derecha (→):</strong> Mover hacia la derecha.</li>
@@ -56,7 +71,6 @@
                 </ul>
                 <p>Utiliza estas teclas para avanzar en el juego, derrotar a tus enemigos y superar los obstáculos. ¡Buena suerte!</p>
             </section>
-            <!-- Fin de Instrucciones del juego -->
             
             <section>
                 <div id="gameContainer">
@@ -67,23 +81,18 @@
             <!-- Sección de Ranking -->
             <section id="ranking">
                 <h2>Ranking de Jugadores</h2>
-            </section>
-            
-            <!-- Formulario para guardar puntaje -->
-            <section>
-                <h2>Guardar Puntaje</h2>
-                <form id="scoreForm">
-                    <label for="playerName">Nombre del Jugador:</label>
-                    <input type="text" id="playerName" name="playerName" required>
-                    <br>
-                    <label for="score">Puntaje:</label>
-                    <input type="number" id="score" name="score" required>
-                    <br>
-                    <label for="time">Tiempo:</label>
-                    <input type="text" id="time" name="time" required>
-                    <br>
-                    <button type="submit">Guardar Puntaje</button>
-                </form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Jugador</th>
+                            <th>Puntaje</th>
+                            <th>Tiempo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingTableBody">
+                        <!-- Los puntajes se agregarán dinámicamente aquí -->
+                    </tbody>
+                </table>
             </section>
         </main>
 
@@ -93,66 +102,23 @@
     </div>
 
     <script>
-        // Configuración de Firebase
-        var firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
+        // Función para cargar los puntajes
+        async function loadScores() {
+            const response = await fetch('/api/scores');
+            const scores = await response.json();
 
-        // Función para guardar puntaje en Firebase
-        function guardarPuntaje(nombre, puntaje, tiempo) {
-            firebase.database().ref('jugadores/').push({
-                nombre: nombre,
-                puntaje: puntaje,
-                tiempo: tiempo
-            }).then(() => {
-                alert('Puntaje guardado exitosamente');
-            }).catch((error) => {
-                console.error('Error al guardar el puntaje:', error);
+            const rankingTableBody = document.getElementById('rankingTableBody');
+            rankingTableBody.innerHTML = ''; // Limpiar tabla antes de añadir
+
+            scores.forEach(score => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${score.name}</td><td>${score.score}</td><td>${new Date(score.date).toLocaleString()}</td>`;
+                rankingTableBody.appendChild(row);
             });
         }
 
-        // Manejo del formulario para guardar puntaje
-        document.getElementById('scoreForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const nombre = document.getElementById('playerName').value;
-            const puntaje = document.getElementById('score').value;
-            const tiempo = document.getElementById('time').value;
-            guardarPuntaje(nombre, puntaje, tiempo);
-        });
-
-        // Función para alternar la pantalla completa
-        document.getElementById('fullscreenButton').addEventListener('click', function () {
-            let gameContainer = document.getElementById('gameContainer');
-            if (!document.fullscreenElement) {
-                if (gameContainer.requestFullscreen) {
-                    gameContainer.requestFullscreen();
-                } else if (gameContainer.mozRequestFullScreen) { // Firefox
-                    gameContainer.mozRequestFullScreen();
-                } else if (gameContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                    gameContainer.webkitRequestFullscreen();
-                } else if (gameContainer.msRequestFullscreen) { // IE/Edge
-                    gameContainer.msRequestFullscreen();
-                }
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.mozCancelFullScreen) { // Firefox
-                    document.mozCancelFullScreen();
-                } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) { // IE/Edge
-                    document.msExitFullscreen();
-                }
-            }
-        });
+        // Cargar puntajes al cargar la página
+        window.onload = loadScores;
     </script>
 </body>
 </html>
