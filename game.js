@@ -243,7 +243,7 @@ function gameOver(reason) {
         document.body.appendChild(nameInput);
         nameInput.style.position = 'absolute';
         nameInput.style.left = '50%';
-        nameInput.style.top = '120%';
+        nameInput.style.top = '118%';
         nameInput.style.transform = 'translateX(-50%)';
 
         // Crear un botón para enviar los datos
@@ -253,7 +253,7 @@ function gameOver(reason) {
         document.body.appendChild(saveButton);
         saveButton.style.position = 'absolute';
         saveButton.style.left = '50%';
-        saveButton.style.top = '90%';
+        saveButton.style.top = '121%';
         saveButton.style.transform = 'translateX(-50%)';
 
         // Manejar el clic en el botón de guardar
@@ -269,4 +269,18 @@ function gameOver(reason) {
 
 function saveScore(name, score) {
     // Implementa la lógica para guardar el nombre y puntaje en la base de datos
+}
+
+
+function saveScore(name, score) {
+    fetch('http://localhost:5000/api/scores', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: name, score: score })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Puntaje guardado:', data))
+    .catch((error) => console.error('Error al guardar el puntaje:', error));
 }
