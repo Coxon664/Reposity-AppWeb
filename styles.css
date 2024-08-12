@@ -7,7 +7,8 @@ body {
     padding: 0;
     font-family: 'Creepster', cursive;
     color: #e0e0e0;
-    background: #0d0d0d;
+    background: #0d0d0d url('assets/background.jpg') no-repeat center center fixed;
+    background: #0d0d0d url('assets/fondo.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
@@ -25,10 +26,11 @@ header, footer {
 /* Encabezado */
 header {
     background: rgba(0, 0, 0, 0.7);
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     border-bottom: 2px solid #e60000;
     display: flex;
+    flex-direction: column;
     justify-content: space-between; /* Ajusta el espacio entre los elementos del header */
     align-items: center;
     flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas más pequeñas */
@@ -36,13 +38,15 @@ header {
 
 header h1 {
     margin: 0;
-    font-size: 4em; /* Ajusta el tamaño del título */
+    font-size: 3em;
+    font-size: 2em; /* Ajusta el tamaño del título */
     color: #e60000;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
+    margin: 25px 0;
     margin: 0;
     display: flex;
     align-items: center;
@@ -50,19 +54,25 @@ nav ul {
 }
 
 nav ul li {
+    display: inline;
+    margin: 0 20px;
+    margin: 0 10px;
     margin: 0;
 }
 
 nav ul li a, .download-button {
     color: #e0e0e0;
     text-decoration: none;
-    font-size: 2em; /* Reducido el tamaño de fuente */
+    font-size: 1.2em;
+    padding: 15px 25px;
+    font-size: 1em; /* Reducido el tamaño de fuente */
     padding: 10px 15px; /* Reducido el tamaño del padding */
     background: transparent;
     border: 2px solid #e60000;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    margin-top: 15px; /* Espacio adicional para el botón de descarga */
 }
 
 nav ul li a:hover, .download-button:hover {
@@ -73,8 +83,7 @@ nav ul li a:hover, .download-button:hover {
 /* Sección principal */
 main {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+@@ -69,6 +78,7 @@ main {
     justify-content: center;
     align-items: center;
 }
@@ -82,38 +91,23 @@ main {
 /* Juego */
 #gameContainer {
     width: 100%;
-    height: 80%; /* Ocupa la mayor parte del main */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@@ -79,28 +89,32 @@ main {
     background-color: black;
     position: relative;
-    margin-top: 20px; /* Añadir margen superior para espacio */
-}
-
-
-/* Sección de Instrucciones del Juego */
-#gameInstructions {
-    font-size: 1.5em; /* Aumentar el tamaño de la fuente */
-    text-align: left; /* Alinear el texto a la izquierda */
-    margin: 20px; /* Añadir margen alrededor de la sección */
-}
-
-#gameInstructions h2 {
-    font-size: 1em; /* Aumentar el tamaño del encabezado */
-    color: #ff7171;
 }
 
 #fullscreenButton {
     position: absolute;
     top: 10px;
     right: 10px;
+    padding: 10px 20px;
     padding: 8px 15px; /* Reducido el tamaño del padding */
     background-color: #555;
     color: white;
     border: none;
     cursor: pointer;
     z-index: 10;
+    font-size: 16px;
     font-size: 14px; /* Reducido el tamaño de la fuente */
 }
 
@@ -132,36 +126,4 @@ footer {
 footer p {
     margin: 0;
     font-size: 1em;
-}
-
-/* Sección de Ranking */
-#ranking {
-    display: inline-block;
-    padding: 10px;
-    color: white;
-    font-size: 28px;
-    background-color: #555;
-    border-radius: 5px;
-    margin-left: 20px;
-    margin-top: 50px; /* Añadir margen superior para espacio */
-    margin-bottom: 50px; /* Añadir margen inferior para espacio con el footer */
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-table, th, td {
-    border: 1px solid white;
-}
-
-th, td {
-    padding: 10px;
-    text-align: center;
-}
-
-th {
-    background-color: #444;
-    color: white;
 }
